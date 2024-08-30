@@ -1,3 +1,8 @@
+use std::{fs::File, io::{Read, Write}};
+
+use serde::{Deserialize, Serialize};
+use serde_json::{from_str, json};
+
 use super::{activations::Activation, matrix::Matrix};
 
 pub struct Network<'a> {
@@ -7,6 +12,12 @@ pub struct Network<'a> {
     data: Vec<Matrix>,
     activation: Activation<'a>,
     learning_rate: f64,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SaveData {
+    weights: Vec<Vec<Vec<f64>>>,
+    biases: Vec<Vec<Vec<f64>>>,
 }
 
 impl Network<'_> {
@@ -71,7 +82,7 @@ impl Network<'_> {
 
     pub fn train(&mut self, inputs: Vec<Vec<f64>>, targets: Vec<Vec<f64>>, epochs: u16) {
         for i in 1..=epochs {
-            if epochs < 100 || i % (epochs/ 100) == 0 {
+            if epochs < 100 || i % (epochs/ 10) == 0 {
                 println!("Epoch {} of {}", i, epochs)
             }
             for j in 0..inputs.len() {
@@ -79,5 +90,34 @@ impl Network<'_> {
                 self.back_propogate(outputs, targets[j].clone());
             }
         }
+    }
+
+    pub fn save(&self, file: String) {
+        let mut file_to_write = File::create(file).expect("Unable to save file");
+        file_to_write.write_all(
+            json!({
+                "weights": self.weights.clone().into_iter().map(|matrix| matrix.data).collect::<Vec<Vec<Vec<f64>>>>(),
+                "biases": self.biases.clone().into_iter().map(|matrix| matrix.data).collect::<Vec<Vec<Vec<f64>>>>()
+            }).to_string().as_bytes(),
+        ).expect("Failed to write to file");
+    }
+
+    pub fn load(&mut self, file: String) {
+        let mut file = File::open(file).expect("Unable to open file");
+        let mut buffer = String::new();
+        file.read_to_string(&mut buffer).expect("Unable to read file");
+
+        let save_data: SaveData = from_str(&buffer).expect("Unable to serialize data");
+
+        let mut weights = vec![];
+        let mut biases = vec![];
+
+        for i in 0..self.layers.len() - 1 {
+            weights.push(Matrix::from(save_data.weights[i].clone()));
+            biases.push(Matrix::from(save_data.biases[i].clone()));
+        }
+
+        self.weights = weights;
+        self.biases = biases;
     }
 }

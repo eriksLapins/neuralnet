@@ -24,9 +24,16 @@ fn main() {
     println!("0 and 1: {:?}", network.feed_forward(vec![0.0,1.0]));
     println!("1 and 1: {:?}", network.feed_forward(vec![1.0,1.0]));
 
-    network.train(inputs, targets, 10000);
+    network.train(inputs.clone(), targets.clone(), 500);
     println!("0 and 0: {:?}", network.feed_forward(vec![0.0,0.0]));
     println!("1 and 0: {:?}", network.feed_forward(vec![1.0,0.0]));
     println!("0 and 1: {:?}", network.feed_forward(vec![0.0,1.0]));
     println!("1 and 1: {:?}", network.feed_forward(vec![1.0,1.0]));
+
+    network.train(inputs, targets, 700);
+    println!("0 and 0: {:?}", network.feed_forward(vec![0.0,0.0]));
+    println!("1 and 0: {:?}", network.feed_forward(vec![1.0,0.0]));
+    println!("0 and 1: {:?}", network.feed_forward(vec![0.0,1.0]));
+    println!("1 and 1: {:?}", network.feed_forward(vec![1.0,1.0]));
+
 }
