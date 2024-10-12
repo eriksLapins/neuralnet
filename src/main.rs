@@ -1,5 +1,4 @@
-pub mod lib;
-use lib::{activations::SIGMOID, network::Network};
+use neuralnet::{activations::SIGMOID, network::Network};
 
 // A project implemented using Neal Wangs tutorial https://www.youtube.com/watch?v=FI-8L-hobDY&list=LL
 // X-or prediction

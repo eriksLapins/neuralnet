@@ -1,9 +1,19 @@
 [package]
-name = "neuralnet"
+name = "neuralnet-main"
 version = "0.1.0"
 edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "neuralnet"
+bench = false
+edition = "2021"
+path = "src/lib/mod.rs"
+
 
 [dependencies]
 rand = "0.8.5"
 serde = { version = "1.0.209", features = ["derive"] }
 serde_json = "1.0.127"
+
+
