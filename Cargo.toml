@@ -1,14 +1,13 @@
 [package]
-name = "neuralnet-main"
+name = "neuralnet"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-name = "neuralnet"
 bench = false
 edition = "2021"
-path = "src/lib/mod.rs"
+path = "src/lib.rs"
 
 
 [dependencies]
