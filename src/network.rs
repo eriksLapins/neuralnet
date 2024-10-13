@@ -42,7 +42,7 @@ impl Network<'_> {
 
     pub fn feed_forward(&mut self, inputs: Vec<f64>) -> Vec<f64> {
         if inputs.len() != self.layers[0] {
-            panic!("Invalid number of inputs");
+            panic!("Invalid number of inputs, expected {}, got {}", inputs.len(), self.layers[0]);
         }
 
         let mut current = Matrix::from(vec![inputs]).transpose();
@@ -60,7 +60,7 @@ impl Network<'_> {
 
     pub fn back_propogate(&mut self, outputs: Vec<f64>, targets: Vec<f64>) {
         if targets.len() != self.layers[self.layers.len() - 1] {
-            panic!("Invalid number of targets")
+            panic!("Invalid number of targets, expected {} got {}", targets.len(), self.layers[self.layers.len() - 1])
         }
 
         let mut parsed = Matrix::from(vec![outputs]).transpose();

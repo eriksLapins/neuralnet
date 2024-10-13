@@ -1,12 +1,12 @@
 [package]
-name = "neuralnet"
 version = "0.1.0"
+name = "neuralnet"
 edition = "2021"
+
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 bench = false
-edition = "2021"
 path = "src/lib.rs"
 
 
